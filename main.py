@@ -1,5 +1,6 @@
 import env
 import ddpg
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -8,13 +9,15 @@ def main():
     agent = ddpg.DeepDeterministicPolicyGradient(episodes)
     pool = env.ExperiencePool()
     real_epoch = 0
+    episode_rewards = []
     for episode in range(episodes):
         done = False
         state = v.observe()
         epoch = 0
+        total_reward = 0
         while not done:
-            print(f'Episode: {episode}, Epoch: {epoch}, position: {state}')
             action = agent([state], batch_size=1, train=True, episode=episode)
+            print(f'Episode: {episode}, Epoch: {epoch}, position: {state}, action: {action}')
             go = v.choose(action)
             reward, done = v.run(go)
             nstate = v.observe()
@@ -31,7 +34,12 @@ def main():
                 agent.train_networks(minibatch, real_epoch)
             real_epoch += 1
             epoch += 1
+            total_reward += reward
         v.reset()
+        episode_rewards.append(total_reward)
+    plt.figure()
+    plt.scatter(list(range(episodes)), episode_rewards)
+    plt.show()
 
     # Evaluate
     total_reward = []

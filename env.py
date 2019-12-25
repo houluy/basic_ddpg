@@ -6,8 +6,8 @@ import numpy as np
 class Env:
     def __init__(self):
         self.state = 0
-        self.end_state = 5
-        self.dead_state = -5
+        self.end_state = 4
+        self.dead_state = -4
 
     def run(self, action):
         self.state += action
