@@ -59,4 +59,5 @@ def main():
         v.reset()
     print(total_reward, sum(total_reward))
 
+
 main()

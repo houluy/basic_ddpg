@@ -6,17 +6,17 @@ import numpy as np
 class Env:
     def __init__(self):
         self.state = 0
-        self.end_state = 4
-        self.dead_state = -4
+        self.end_state = 5
+        self.dead_state = -5
 
     def run(self, action):
         self.state += action
         if self.state == self.end_state:
-            return 1, True
+            return 10, True
         elif self.state == self.dead_state:
-            return -1, True
+            return -10, True
         else:
-            return 0, False
+            return -1, False
 
     def observe(self):
         return np.array([self.state])
